@@ -12,7 +12,7 @@
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Este trabajo se ha realizado bajo licencia <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
 
-[![DOI](https://zenodo.org/badge/DOI/XXXXX/zenodo.7825960.svg)](https://doi.org/XXXX/zenodo.XXXXXX)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8152802.svg)](https://doi.org/10.5281/zenodo.8152802)
 
 ## Sobre el taller
 
@@ -87,7 +87,7 @@ install.packages(pkgs, Ncpus = 4) # especifica Ncpus según nº CPUs disponibles
 Para descargar los materiales del taller puedes abrir RStudio y ejecutar `use_course()` tal y como se muestra a continuación:
 
 ```r
-usethis::use_course("DLEIVA/CienciaDatosR.git")
+usethis::use_course("DLEIVA/CienciaDatosR")
 ```
 
 Una vez ejecutada la instrucción se os preguntará si queréis descargar los materiales del curso en el directorio `~/Desktop` (en este caso, `~/` se refiere a vuestro directorio raíz). Presionad el número indicado y presionad la tecla <kbd>Enter</kbd> para mostrar vuestro acuerdo. Los materiales se descargarán como un archivo zip y se extraerán automáticamente.
@@ -98,4 +98,4 @@ Finalmente, tras responsder a esta cuestión, Rstudio cargará el proyecto del t
 
 ### Descarga directa
 
-Si no estáis utilizando RStudio o sabéis lo que hacéis, podeís descargar el archivo zip directamente desde <https://github.com/DLEIVA/CienciaDatosR.z>. La extracción de archivos y el inicio en el directorio correcto correrá entonces a vuestro cargo.
+Si no estáis utilizando RStudio o sabéis lo que hacéis, podeís descargar el archivo zip directamente desde <https://github.com/DLEIVA/CienciaDatosR.git>. La extracción de archivos y el inicio en el directorio correcto correrá entonces a vuestro cargo.
