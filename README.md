@@ -1,2 +1,101 @@
-# CienciaDatosR
-Curso Ciencia de Datos con R SCEPS 2023
+# Introducción a la Ciencia de Datos con R
+
+## IV Escuela de Verano SCEPS
+
+### 17-21 Julio, 2023
+
+### David Leiva Ureña
+
+#### Departmento Psicología Social y Psicología Cuantitativa, Universidad de Barcelona
+
+---
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Este trabajo se ha realizado bajo licencia <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+
+[![DOI](https://zenodo.org/badge/DOI/XXXXX/zenodo.7825960.svg)](https://doi.org/XXXX/zenodo.XXXXXX)
+
+## Sobre el taller
+
+Este curso se ha pensado como un taller de tipo práctico en el que se introducirá a los participantes en la Ciencia de Datos mediante el software estadístico de libre distribución R. Puesto que se trata de un lenguaje de programación y su aprendizaje puede resultar costoso, se utilizarán numerosos ejemplos que faciliten el dominio de la sintaxis básica. A lo largo de las sesiones se capacitará a los participantes a ser autónomos en aquellas técnicas básicas relacionadas con la visualización de datos, la modelización estadística así como en la elaboración de informes técnicos con herramientas de R en combinación con programas como $\LaTeX$ o Markdown. Dado el carácter eminentemente práctico del curso, éste debería realizarse en aula de ordenadores o bien que cada participante lleve un ordenador portátil.
+
+### Programa del curso:
+
+1. Primeros pasos con R (2h)
+ - Instalación y ejecución de R
+ - RStudio: una IDE para R
+ - Introducción al tidyverse
+
+2. Visualización de datos con R (2h)
+ - Paquetes gŕaficos básicos 
+ - ggplot2 y otros paquetes
+
+3. Modelización estadística con R (1.30h)
+ - Ejemplos de modelos estadísticos
+ - Modelización con tidymodels
+
+4. Investigación reproducible con R (3h)
+ - Generación de documentos con \texttt{knitr} y \texttt{RMarkdown}
+ - Desarrollo de aplicaciones dinámicas con Shiny
+
+## Sobre el instructor
+
+Me llamo David Leiva y soy profesor Agregado (Contratado Doctor) en el Departamento de Psicología Social y Psicología Cuantitativa. Imparto cursos de grado, máster y doctorado en Estadística, Técnicas de Investigación, Modelización Estadística, Ciencia de Datos y Matemáticas Aplicadas. Mis principales intereses de investigación son el análisis de datos diádicos, la modelización y el software estadístico. También he participado en numerosos trabajos en campos como la Psicología de las Organizaciones, la Neuropsicología, la Psicogerontología o la Biología, entre otros. Puedes encontrar mi CV en el siguiente [enlace](https://github.com/DLEIVA/CV/blob/main/CV_DLU_2023.pdf).
+
+## Preparación previa
+
+Por favor, asegúrate que tienes al menos la versión 4.1 de R instalada &mdash; *y preferiblemente la versión 4.2* &mdash; (pues dependiendo de los paquetes que se utilicen requieren versiones actualizadas del software). Nótese que R y RStudio son dos programas distintos: no es suficiente tener actualizada la versión de RStudio pues R se va actualizando independientemente de forma periódica.
+
+Para comprobar la versión de R instalada, puedes ejecutar
+
+```r
+version
+```
+
+en R y leer en el apartado `version.string` (o las secciones `major` y `minor`).
+
+Si la versión instalada de R es < 4.1.0, necesitarás actualizar el programa previa descarga e instalación. Para descargar R ve a la página [CRAN Download](https://cran.r-project.org/) y selececciona el enlace apropiado según tu sistema operativo:
+
+* [Windows](https://cran.r-project.org/bin/windows/)
+* [MacOS X](https://cran.r-project.org/bin/macosx/)
+* [Linux](https://cran.r-project.org/bin/linux/)
+
+A lo largo de las sesiones vamos a utilizar diversos paquetes de R que necesitarás tener instalados. Antes del inicio del taller, ejecuta el siguiente código que actualizará los paquetes instalados e instalará los paquetes necesarios durante el taller:
+
+```r
+# Actualiza paquetes
+update.packages(ask = FALSE, checkBuilt = TRUE)
+
+# Algunos paquetes a instalar
+pkgs <- c("tidyverse", "readxl", "haven", "usethis", "learnr", "kableExtra", "magick",
+          "gridExtra", "dslabs", "patchwork", "plotly", "gganimate", "tinytext", "knitr",
+          "xtable", "lorem"," flexdashboard")
+
+# Instalar esos paquetes
+install.packages(pkgs, Ncpus = 4) # especifica Ncpus según nº CPUs disponibles en tu ordenador
+```
+
+*Conviene trabajar previamente estos 2 recursos para un buen aprovechamiento del taller.*
+
+[Instalación de R y RStudio](https://learnr-examples.shinyapps.io/ex-setup-r/)
+
+[Programación básica con R](https://posit.cloud/learn/primers/1.2)
+
+# Materiales del curso
+
+## Desde Github
+
+Para descargar los materiales del taller puedes abrir RStudio y ejecutar `use_course()` tal y como se muestra a continuación:
+
+```r
+usethis::use_course("https://XXXX")
+```
+
+Una vez ejecutada la instrucción se os preguntará si queréis descargar los materiales del curso en el directorio `~/Desktop` (en este caso, `~/` se refiere a vuestro directorio raíz). Presionad el número indicado y presionad la tecla <kbd>Enter</kbd> para mostrar vuestro acuerdo. Los materiales se descargarán como un archivo zip y se extraerán automáticamente.
+
+Tras la extracción, se os preguntará si queréis eliminar el archivo `.zip` descargado. Seleccionad la opción que creáis oportuna.
+
+Finalmente, tras responsder a esta cuestión, Rstudio cargará el proyecto del taller en una nueva sesión de RStudio. Una vez abierto el proyecto, podeís cerrar la otra ventana de RStudio (en la que habéis ejecutado la instrucción `use_course()`).
+
+### Descarga directa
+
+Si no estáis utilizando RStudio o sabéis lo que hacéis, podeís descargar el archivo zip directamente desde <https://XXX>. La extracción de archivos y el inicio en el directorio correcto correrá entonces a vuestro cargo.
