@@ -87,7 +87,7 @@ install.packages(pkgs, Ncpus = 4) # especifica Ncpus según nº CPUs disponibles
 Para descargar los materiales del taller puedes abrir RStudio y ejecutar `use_course()` tal y como se muestra a continuación:
 
 ```r
-usethis::use_course("https://XXXX")
+usethis::use_course("DLEIVA/CienciaDatosR.git")
 ```
 
 Una vez ejecutada la instrucción se os preguntará si queréis descargar los materiales del curso en el directorio `~/Desktop` (en este caso, `~/` se refiere a vuestro directorio raíz). Presionad el número indicado y presionad la tecla <kbd>Enter</kbd> para mostrar vuestro acuerdo. Los materiales se descargarán como un archivo zip y se extraerán automáticamente.
@@ -98,4 +98,4 @@ Finalmente, tras responsder a esta cuestión, Rstudio cargará el proyecto del t
 
 ### Descarga directa
 
-Si no estáis utilizando RStudio o sabéis lo que hacéis, podeís descargar el archivo zip directamente desde <https://XXX>. La extracción de archivos y el inicio en el directorio correcto correrá entonces a vuestro cargo.
+Si no estáis utilizando RStudio o sabéis lo que hacéis, podeís descargar el archivo zip directamente desde <https://github.com/DLEIVA/CienciaDatosR.z>. La extracción de archivos y el inicio en el directorio correcto correrá entonces a vuestro cargo.
