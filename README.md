@@ -23,18 +23,18 @@ Este curso se ha pensado como un taller de tipo práctico en el que se introduci
 1. Primeros pasos con R (2h)
  - Instalación y ejecución de R
  - RStudio: una IDE para R
- - Introducción al tidyverse
+ - Introducción al *tidyverse*
 
 2. Visualización de datos con R (2h)
  - Paquetes gŕaficos básicos 
- - ggplot2 y otros paquetes
+ - *ggplot2* y otros paquetes
 
 3. Modelización estadística con R (1.30h)
  - Ejemplos de modelos estadísticos
  - Modelización con tidymodels
 
 4. Investigación reproducible con R (3h)
- - Generación de documentos con \texttt{knitr} y \texttt{RMarkdown}
+ - Generación de documentos con *knitr* y *RMarkdown*
  - Desarrollo de aplicaciones dinámicas con Shiny
 
 ## Sobre el instructor
