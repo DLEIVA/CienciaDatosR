@@ -110,7 +110,7 @@ grupo <- sample(rep(c('Control','Tratamiento'),each=30))
 
 El anterior objeto era de tipo carácter (`chr`) pero en general nos interesará tratarlo como objeto de tipo factor. Genera un nuevo objeto `grupo2` Para ello utliza la función `factor()` y compáralo con el objeto del ejercicio anterior
 
-```{r factor, exercise=TRUE, exercise.setup = 'vecAleat'}
+```{r factor, exercise=TRUE, exercise.blanks='___+',exercise.setup = 'vecAleat'}
 set.seed(123)
 grupo <- sample(rep(c('Control','Tratamiento'),each=30))
 grupo2 <- ___
@@ -331,7 +331,7 @@ VECT <- 100:340
 
 ```{r sumcuad2-solution}
 sumcuad2 <- function(x){
-  sum(x[x%%2]^2)
+  sum(x[!x%%2]^2)
 }
 sumcuad2(VECT)
 ```
@@ -492,9 +492,11 @@ library(tidyverse)
 
 ### Modelo de Ciencia de Datos
 
-Seguiremos el modelo propuesto por Wickham y Grolemund (2017):
+Seguiremos el modelo propuesto por Wickham y Grolemund (2023):
 
 ![](images/Model_DS_project.png)
+
+Os recomiendo encarecidamente echarle un vistazo a este [MARAVILLOSO libro libre](https://r4ds.hadley.nz/).
 
 tidyverse es un conjunto de paquetes que posibilita las principales tareas en todo proyecto de Ciencia de Datos. En el núcleo del tidyverse encontramos los paquetes: `readr`, `tidyr`, `dplyr` y `ggplot2`.
 
