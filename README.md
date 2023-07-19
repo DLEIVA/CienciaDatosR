@@ -66,9 +66,7 @@ A lo largo de las sesiones vamos a utilizar diversos paquetes de R que necesitar
 update.packages(ask = FALSE, checkBuilt = TRUE)
 
 # Algunos paquetes a instalar
-pkgs <- c("tidyverse", "readxl", "haven", "usethis", "learnr", "kableExtra", "magick",
-          "gridExtra", "dslabs", "patchwork", "plotly", "gganimate", "tinytext", "knitr",
-          "xtable", "lorem"," flexdashboard")
+pkgs <- c("tidyverse", "readxl", "haven", "usethis", "learnr", "kableExtra", "magick","gridExtra", "dslabs", "patchwork", "plotly", "gganimate", "car", "effects", "tidymodels", "tinytext", "knitr","xtable", "lorem"," flexdashboard")
 
 # Instalar esos paquetes
 install.packages(pkgs, Ncpus = 4) # especifica Ncpus según nº CPUs disponibles en tu ordenador
