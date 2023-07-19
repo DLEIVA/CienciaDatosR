@@ -427,7 +427,7 @@ use_by_morechild |>
 
 
 
-### 6) Creamos una partición training/test y validación
+### 6) Creamos una partición training/test
 
 ```{r}
 
@@ -437,12 +437,12 @@ splits <- initial_split(contradat, prop=4/5, strata = cuse)
 contradat_training <- training(splits)
 contradat_testing  <- testing(splits)
 
-contradat_training %>% 
-  count(cuse) %>% 
+contradat_training |> 
+  count(cuse) |> 
   mutate(prop = n/sum(n))
 
-contradat_testing %>% 
-  count(cuse) %>% 
+contradat_testing |> 
+  count(cuse) |> 
   mutate(prop = n/sum(n))
 
 ```
@@ -450,12 +450,12 @@ contradat_testing %>%
 ### 7) Definimos y ajustamos el modelo
 
 ```{r}
-fitted_logistic_model<- logistic_reg() %>%
-        # Set the engine
-        set_engine("glm") %>%
-        # Set the mode
-        set_mode("classification") %>%
-        # Fit the model
+fitted_logistic_model<- logistic_reg() |>
+        # Especificar motor
+        set_engine("glm") |>
+        # Especificar modo
+        set_mode("classification") |>
+        # Ajustar modelo
         fit(cuse~., data = contradat_training)
 tidy(fitted_logistic_model) 
 ```
@@ -464,7 +464,7 @@ tidy(fitted_logistic_model)
 
 ```{r}
 
-tidy(fitted_logistic_model, exponentiate = TRUE) %>%
+tidy(fitted_logistic_model, exponentiate = TRUE) |>
   filter(p.value < 0.05)
 
 ```
@@ -482,8 +482,8 @@ pred_proba <- predict(fitted_logistic_model,
                       new_data = contradat_testing,
                       type = "prob")
 
-cuse_resultados <- contradat_testing %>%
-  select(cuse) %>%
+cuse_resultados <- contradat_testing |>
+  select(cuse) |>
   bind_cols(pred_class, pred_proba)
 
 cuse_resultados[sample(1:nrow(cuse_resultados),5), ]
@@ -502,8 +502,8 @@ roc_auc(cuse_resultados,
         truth = cuse,
         .pred_no)
 
-cuse_resultados %>%
-  roc_curve(truth = cuse, .pred_no) %>%
+cuse_resultados |>
+  roc_curve(truth = cuse, .pred_no) |>
   autoplot()
 ```
 
