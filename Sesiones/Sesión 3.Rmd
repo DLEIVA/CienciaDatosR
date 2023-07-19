@@ -225,7 +225,7 @@ gapminder
 ¿Cómo cambia la esperanza de vida en cada país a través del tiempo?
 
 ```{r}
-gapminder %>% 
+gapminder |> 
   ggplot(aes(year, lifeExp, group =country)) +
   geom_line(alpha = 1/3)
 ```
@@ -233,8 +233,8 @@ gapminder %>%
 * Para ajustar un modelo en cada país podemos utilizar las funcionalidades del paquete `purrr`. Para ello, en primer lugar, necesitamos guardar los datos de forma anidada:
 
 ```{r}
-by_country <- gapminder %>%
-  group_by(country, continent) %>% 
+by_country <- gapminder |>
+  group_by(country, continent) |> 
   nest()
 
 by_country
@@ -257,7 +257,7 @@ country_model <- function(df){
   lm(lifeExp ~ year, data = df)
 }
 
-by_country <- by_country %>% 
+by_country <- by_country |> 
   mutate(model = map(data, country_model))
 
 by_country
@@ -268,14 +268,15 @@ by_country
 * Ahora podemos trabajar con estos modelos para analizar los residuales, el ajuste así como otros estadísticos de interés en la modelización (NOTA: la función add_residuals está en el paquete `modelr`):
 
 ```{r}
-by_country <- by_country %>%
+library(modelr)
+by_country <- by_country |>
   mutate(
     resids = map2(data, model, add_residuals)
   )
 
 resids <- unnest(by_country, resids)
 
-resids %>% 
+resids |> 
   ggplot(aes(year, resid)) +
   geom_line(aes(group = country),alpha = 1 / 3) +
   geom_smooth(se = FALSE) +
@@ -284,8 +285,8 @@ resids %>%
 
 
 ```{r}
-glance <- by_country %>% 
-  mutate(glance = map(model, broom::glance)) %>% 
+glance <- by_country |> 
+  mutate(glance = map(model, broom::glance)) |> 
   unnest(glance)
 
 glance
@@ -294,13 +295,13 @@ glance
 * ¿Qué 10 países ajustan peor al modelo estimado?
 
 ```{r}
-glance %>% 
-  arrange(r.squared) %>% 
+glance |> 
+  arrange(r.squared) |> 
   head(n = 10)
 ```
 
 ```{r}
-glance %>% 
+glance |> 
   ggplot(aes(continent, r.squared)) +
   geom_boxplot()
 ```
@@ -312,8 +313,8 @@ glance %>%
 ```{r}
 bad_fit <- filter(glance, r.squared < 0.25)
 
-gapminder %>%
-  semi_join(bad_fit, by = "country") %>% 
+gapminder |>
+  semi_join(bad_fit, by = "country") |> 
   ggplot(aes(year, lifeExp, colour = country)) +
   geom_line()
   
@@ -323,56 +324,61 @@ gapminder %>%
 
 # INTRODUCCIÓN A TIDYMODELS
 
+* Se supone que hemos instalado previamente el paquete `tidymodels`.
+
+![Tomado de Ruiz, 2019.](images/tidymodels.png)
+
+Podéis encontrar más información en:
+
+https://www.tidymodels.org/
+
+```{r}
+library(tidymodels)
+```
+
+
 ## Predicción de uso de métodos anticonceptivos
 
-
-&nbsp;
-
-To make the following lab we'll briefly work with some of the packages included in the tidyverse as well as a bunch of packages incuded in tidymodels:
-
-https://github.com/tidymodels
-
-
-&nbsp;
-
-* 1) Carga e inspecciona la base de datos:
+### 1) Carga e inspecciona la base de datos:
 
 ```{r}
 library(tidyverse)
 
-# Load csv and specify factor type for name, type1 and is_legendary
-contradat <- read_csv('data/Contraceptive.csv',
-         col_types = cols(age = col_factor(levels=c('<25','25-29','30-39','40-49')),
-                          education = col_factor(levels=c('low','high')),
-                          morechild = col_factor(levels=c('no','yes')), cuse = col_integer()))
+# Carga csv y prepara factores
+contradat <- read_csv('data/Contraceptive.csv')
 
+contradat$age <- factor(contradat$age,levels=c('<25','25-29','30-39','40-49'))
+contradat$education <- factor(contradat$education,levels=c('low','high'))
+contradat$morechild <- factor(contradat$morechild,levels=c('no','yes'))
+contradat$cuse <- factor(car::recode(contradat$cuse,"0='no';1='yes'"),levels=c('no','yes'))
 
 contradat
 ```
 
 
-* 2) ¿Cuál es la proporción de mujeres utilizando métodos anticonceptivos?
+### 2) ¿Cuál es la proporción de mujeres utilizando métodos anticonceptivos?
 
 ```{r}
 library(kableExtra)
-usecontra <- contradat %>% 
-  count(cuse) %>% 
+usecontra <- contradat |> 
+  count(cuse) |> 
   mutate(prop = n / nrow(contradat)) 
 
-usecontra %>% 
+usecontra |> 
   kable()
 ```
-* 3) Contracepción y edad:
+
+### 3) Contracepción y edad:
 
 ```{r}
 # Preparar los datos
-use_by_age <- contradat %>% 
-    group_by(age) %>%
-    summarise(prop_use = mean(cuse)) %>%
-    ungroup() %>% 
+use_by_age <- contradat |> 
+    group_by(age) |>
+    summarise(prop_use = mean(as.numeric(cuse)-1)) |>
+    ungroup() |> 
     mutate(type = fct_reorder(age, prop_use)) # Ordenar por edad y proporción
 
-use_by_age %>% 
+use_by_age |> 
     ggplot(aes(x = age, y = prop_use, fill = prop_use)) + 
     geom_col() +
     labs(title = "Contracepción y Edad") +
@@ -381,17 +387,17 @@ use_by_age %>%
 
 ```
 
-* 4) Contracepción y educación:
+### 4) Contracepción y educación:
 
 ```{r}
 # Preparar los datos
-use_by_educ <- contradat %>% 
-    group_by(education) %>%
-    summarise(prop_use = mean(cuse)) %>%
-    ungroup() %>% 
+use_by_educ <- contradat |> 
+    group_by(education) |>
+    summarise(prop_use = mean(as.numeric(cuse)-1)) |>
+    ungroup() |> 
     mutate(type = fct_reorder(education, prop_use)) # Ordenar por educación y proporción
 
-use_by_educ %>% 
+use_by_educ |> 
     ggplot(aes(x = education, y = prop_use, fill = prop_use)) + 
     geom_col() +
     labs(title = "Contracepción y educación") +
@@ -400,17 +406,17 @@ use_by_educ %>%
 
 ```
 
-* 5) Contracepción y deseo de tener más hijos:
+### 5) Contracepción y deseo de tener más hijos:
 
 ```{r}
 # Preparar los datos
-use_by_morechild <- contradat %>% 
-    group_by(morechild) %>%
-    summarise(prop_use = mean(cuse)) %>%
-    ungroup() %>% 
+use_by_morechild <- contradat |> 
+    group_by(morechild) |>
+    summarise(prop_use = mean(as.numeric(cuse)-1)) |>
+    ungroup() |> 
     mutate(type = fct_reorder(morechild, prop_use)) # Ordenar por morechild y proporción
 
-use_by_morechild %>% 
+use_by_morechild |> 
     ggplot(aes(x = morechild, y = prop_use, fill = prop_use)) + 
     geom_col() +
     labs(title = "Contracepción y deseo de más hijos") +
@@ -419,173 +425,85 @@ use_by_morechild %>%
 
 ```
 
-* Se supone que hemos instalado previamente el paquete `tidymodels` 
 
-![Taken from Ruiz, 2019.](images/tidymodels.png)
 
-## 6) Create a training/test split as well as 10-fold CV:
+### 6) Creamos una partición training/test y validación
 
 ```{r}
-if(!require(tidymodels)){
-  install.packages('tidymodels')
-  library(tidymodels)
-}
-
-pokedex <- pokedex[colnames(pokedex)!="name"]
 
 set.seed(123)
-pokedex_split <- initial_split(pokedex,prop=4/5,strata=is_legendary)
-pokedex_split
+splits <- initial_split(contradat, prop=4/5, strata = cuse)
 
-pokedex_training <- pokedex_split %>% 
-  training() %>% 
-  glimpse()
+contradat_training <- training(splits)
+contradat_testing  <- testing(splits)
 
-pokedex_testing <- pokedex_split %>% 
-  testing() %>% 
-glimpse()
+contradat_training %>% 
+  count(cuse) %>% 
+  mutate(prop = n/sum(n))
 
-set.seed(1234)
-pokedex_folds <- vfold_cv(pokedex_training,strata=is_legendary)
-pokedex_folds
-```
-
-## 6) Pre-process training and test datasets:
-
-```{r}
-# Pre-pocessing the training dataset
-pokedex_recipe <- pokedex_training %>%
-  recipe(is_legendary ~.) %>%
-  step_corr(all_numeric()) %>%
-  step_center(all_numeric(), -all_outcomes()) %>%
-  step_scale(all_numeric(), -all_outcomes()) %>%
-  prep()
-
-pokedex_recipe
-
-# Pre-processing the testing dataset
-pokedex_testing <- pokedex_recipe %>%
-  bake(pokedex_testing)
-
-# Extract pre-processed training dataset
-
-pokedex_training <- juice(pokedex_recipe)
-```
-
-
-## 7) Fit a tunable decision tree:
-
-Further information regarding this technique:
-
-https://towardsdatascience.com/the-complete-guide-to-decision-trees-28a4e3c7be14
-
-&nbsp;
-
-```{r}
-tree_spec <- decision_tree(
-  cost_complexity = tune(),
-  tree_depth = tune(),
-  min_n = tune()
-) %>% 
-  set_engine("rpart") %>% 
-  set_mode("classification")
-
-tree_spec
-
-tree_grid <- grid_regular(cost_complexity(), tree_depth(), min_n(), levels =4)
-
-tree_grid
-
-doParallel::registerDoParallel()
-
-# It'll take some time (be patient...)
-
-set.seed(345)
-tree_rs <- tune_grid(
-  tree_spec,
-  is_legendary~ attack + defense + height_m + 
-                    hp + sp_attack + sp_defense + speed + type1 + weight_kg,
-  resamples = pokedex_folds,
-  grid = tree_grid,
-  metrics = metric_set(roc_auc,accuracy)
-)
-
-tree_rs
-```
-
-## Evaluate models
-
-```{r}
-collect_metrics(tree_rs)
-```
-
-```{r}
-autoplot(tree_rs) + theme_light(base_family='IBMPlexSans')
-
-show_best(tree_rs,'accuracy','roc_auc')
-select_best(tree_rs,'accuracy','roc_auc')
+contradat_testing %>% 
+  count(cuse) %>% 
+  mutate(prop = n/sum(n))
 
 ```
 
+### 7) Definimos y ajustamos el modelo
+
 ```{r}
-
-class_tree_wf <- workflow() %>%
-  add_model(tree_spec %>% set_args(cost_complexity = tune())) %>%
-  add_formula(is_legendary ~ .)
-
-best_complexity <- select_best(tree_rs)
-
-class_tree_final <- finalize_workflow(class_tree_wf, best_complexity)
-
-class_tree_final_fit <- fit(class_tree_final, data = pokedex_training)
-class_tree_final_fit
-
-class_tree_final_fit %>%
-  extract_fit_engine() %>%
-  rpart.plot(roundint=FALSE)
+fitted_logistic_model<- logistic_reg() %>%
+        # Set the engine
+        set_engine("glm") %>%
+        # Set the mode
+        set_mode("classification") %>%
+        # Fit the model
+        fit(cuse~., data = contradat_training)
+tidy(fitted_logistic_model) 
 ```
 
-
-## 8) Fit a random forest:
+### 9) Reportamos coeficientes como OR y seleccionamos significativos:
 
 ```{r}
-if(!require('randomForest')){
-  install.packages('randomForest')
-  library(randomForest)
-}
 
-set.seed(123)
-
-# Fit random forest
-pokedex_rf <- randomForest(is_legendary ~ attack + defense + height_m + 
-                         hp + sp_attack + sp_defense + speed + type1 + weight_kg,
-                         data = pokedex_training,
-                         importance = TRUE,
-                         na.action = na.omit)
-
-print(pokedex_rf)
+tidy(fitted_logistic_model, exponentiate = TRUE) %>%
+  filter(p.value < 0.05)
 
 ```
 
-## 9) Assess model fit:
+### 10) Evaluamos el modelo en la muestra de test
 
 ```{r}
-library(ROCR)
+# Predicción de clase
+pred_class <- predict(fitted_logistic_model,
+                      new_data = contradat_testing,
+                      type = "class")
 
-# Decision tree
-probs_tree <- predict(class_tree_final_fit, pokedex_testing, type = "prob")
-pred_tree <- prediction(probs_tree[,2], pokedex_testing$is_legendary)
-perf_tree <- performance(pred_tree, "tpr", "fpr")
+# Predicción de la probabilidad de pertenencia a cada clase
+pred_proba <- predict(fitted_logistic_model,
+                      new_data = contradat_testing,
+                      type = "prob")
 
-# Random forest
-probs_forest <- predict(pokedex_rf, pokedex_testing, type = "prob")
-pred_forest <- prediction(probs_forest[,2][!is.na(probs_forest[,2])], pokedex_testing$is_legendary[!is.na(probs_forest[,2])])
-perf_forest <- performance(pred_forest, "tpr", "fpr")
+cuse_resultados <- contradat_testing %>%
+  select(cuse) %>%
+  bind_cols(pred_class, pred_proba)
 
-# Plot the ROC curves: first for the decision tree, then for the random forest
-plot(perf_tree, col = "red", main = "ROC curves")
-plot(perf_forest, add = TRUE, col = "blue")
-legend(x = "bottomright",  legend = c("Decision Tree", "Random Forest"), fill = c("red", "blue"))
+cuse_resultados[sample(1:nrow(cuse_resultados),5), ]
 
+# Generamos un vector de métricas de rendimiento
+
+custom_metrics <- metric_set(accuracy, sens, spec, precision, recall, f_meas, kap, mcc)
+custom_metrics(cuse_resultados,
+               truth = cuse,
+               estimate = .pred_class)
+```
+
+
+```{r}
+roc_auc(cuse_resultados,
+        truth = cuse,
+        .pred_no)
+
+cuse_resultados %>%
+  roc_curve(truth = cuse, .pred_no) %>%
+  autoplot()
 ```
 
