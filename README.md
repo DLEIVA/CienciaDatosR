@@ -97,3 +97,44 @@ Finalmente, tras responsder a esta cuestión, Rstudio cargará el proyecto del t
 ### Descarga directa
 
 Si no estáis utilizando RStudio o sabéis lo que hacéis, podeís descargar el archivo zip directamente desde <https://github.com/DLEIVA/CienciaDatosR.git>. La extracción de archivos y el inicio en el directorio correcto correrá entonces a vuestro cargo.
+
+### OTROS RECURSOS
+
+**Cursos R Básicos**
+
+https://www.codecademy.com/learn/learn-r
+
+https://www.codecademy.com/learn/learn-statistics-with-r
+
+https://www.codecademy.com/learn/r-for-programmers
+
+
+**Cursos de tidyverse**
+
+https://www.coursera.org/specializations/tidyverse-data-science-r
+
+https://www.coursera.org/learn/tidyverse
+
+https://www.coursera.org/learn/tidyverse-data-wrangling
+
+https://www.coursera.org/learn/tidyverse-visualize-data
+
+
+**Bibliografía recomendada**
+
+Gandrud, C. (2020). Reproducible research with R and RStudio (3rd. Ed.). Boca
+Raton, FL: Chapman & Hall/CRC.
+
+Murrell, P. (2019). R graphics. (3rd. Ed.). Boca Raton, FL: Chapman & Hall/CRC.
+
+Wilke, C. O. (2019). Fundamentals of Data Visualization. (2nd. Ed.). Sebastopol,
+CA: O’Reilly.
+
+Whickam, H, Grolemund, G. (2023). R for Data Science. (2nd. Ed.). Sebastopol,
+CA: O’Reilly.
+
+Xie, Y. (2017). Dynamic documents with R and knitr (2nd. Ed.). Boca Raton, FL:
+Chapman & Hall/CRC.
+
+Xie, Y., Allaire, J. J., & Grolemund, G. (2018). RMarkdown: The definitive guide
+(2nd. Ed.). Boca Raton, FL: Chapman & Hall/CRC.
