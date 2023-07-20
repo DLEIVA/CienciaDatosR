@@ -10,7 +10,7 @@ params:
 ```{r include = FALSE}
 library(ggplot2)
 library(dplyr)
-pais <- datos %>% filter(COUNTRY_REGION == params$c_count)
+pais <- datos |> filter(COUNTRY_REGION == params$c_count)
 ```
 
 # Series temporales de movilidad para `r params$c_count`
@@ -19,12 +19,12 @@ pais <- datos %>% filter(COUNTRY_REGION == params$c_count)
 ```{r echo=FALSE}
 vars <- paste0(c('RETAIL_AND_RECREATION','GROCERY_AND_PHARMACY','PARKS','TRANSIT_STATIONS','WORKPLACES','RESIDENTIAL'),'_PCT')
 
-datos.m <- pais %>% 
-  group_by(DAY_CT) %>% 
+datos.m <- pais |> 
+  group_by(DAY_CT) |> 
   summarise(across(vars, mean))
 
-df <- datos.m %>%
-  select(DAY_CT, RETAIL_AND_RECREATION_PCT:RESIDENTIAL_PCT) %>%
+df <- datos.m |>
+  select(DAY_CT, RETAIL_AND_RECREATION_PCT:RESIDENTIAL_PCT) |>
   gather(key = "variable", value = "Porcentaje", -DAY_CT)
 
 ggplot(df, aes(x = DAY_CT, y = Porcentaje)) + 
