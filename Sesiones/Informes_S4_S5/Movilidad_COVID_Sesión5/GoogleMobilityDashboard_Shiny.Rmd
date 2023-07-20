@@ -46,12 +46,12 @@ Column {data-width=550}
 ```{r}
 
 renderPlot({
-  datos.m <- datos %>% 
-  group_by(DATE_VAL) %>% 
+  datos.m <- datos |> 
+  group_by(DATE_VAL) |> 
   summarise(across(Vars, mean))
-  df <- datos.m %>%
-  select(DATE_VAL, RETAIL_AND_RECREATION_PCT:RESIDENTIAL_PCT) %>%
-  pivot_longer(names_to = "variable", values_to = "Porcentaje", -DATE_VAL) %>% 
+  df <- datos.m |>
+  select(DATE_VAL, RETAIL_AND_RECREATION_PCT:RESIDENTIAL_PCT) |>
+  pivot_longer(names_to = "variable", values_to = "Porcentaje", -DATE_VAL) |> 
   filter(str_detect(variable,if_else(input$tipo_mov=="TODOS",".*.",input$tipo_mov)))
   ggplot(df,aes(x = DATE_VAL, y = Porcentaje)) + 
     geom_line(aes(color = variable, linetype = variable)) +
@@ -68,14 +68,14 @@ Column {data-width=450}
 
 ```{r fig.width = 16,fig.height=10}
 renderPlot({
-  pais <- datos %>% filter(str_detect(COUNTRY_REGION,if_else(input$pais_sel=="TODOS",".*.",input$pais_sel)))
+  pais <- datos |> filter(str_detect(COUNTRY_REGION,if_else(input$pais_sel=="TODOS",".*.",input$pais_sel)))
   
-  datos.m <- pais %>% 
-    group_by(DATE_VAL) %>% 
+  datos.m <- pais |> 
+    group_by(DATE_VAL) |> 
     summarise(across(Vars, mean))
   
-  df <- datos.m %>%
-    select(DATE_VAL, RETAIL_AND_RECREATION_PCT:RESIDENTIAL_PCT) %>%
+  df <- datos.m |>
+    select(DATE_VAL, RETAIL_AND_RECREATION_PCT:RESIDENTIAL_PCT) |>
     gather(key = "variable", value = "Porcentaje", -DATE_VAL)
   
   ggplot(df, aes(x = DATE_VAL, y = Porcentaje)) + 
@@ -94,7 +94,7 @@ mapa_m <- map_data("world")
 mapa_m <- subset(mapa_m, region != "Antarctica")
 
 renderPlot({
-  datos.m <- datos %>% group_by(COUNTRY_REGION) %>% select(all_of(Vars)) %>% summarise_all(vars=Vars,mean)
+  datos.m <- datos |> group_by(COUNTRY_REGION) |> select(all_of(Vars)) |> summarise_all(vars=Vars,mean)
   datos.m$Medias <- if(input$tipo_mov=="TODOS"){rowMeans(datos.m[Vars])} else{rowMeans(datos.m[input$tipo_mov])}
   ggplot(datos.m) +
     geom_map(
