@@ -16,7 +16,7 @@
 
 ## Sobre el taller
 
-Este curso se ha pensado como un taller de tipo práctico en el que se introducirá a los participantes en la Ciencia de Datos mediante el software estadístico de libre distribución R. Puesto que se trata de un lenguaje de programación y su aprendizaje puede resultar costoso, se utilizarán numerosos ejemplos que faciliten el dominio de la sintaxis básica. A lo largo de las sesiones se capacitará a los participantes a ser autónomos en aquellas técnicas básicas relacionadas con la visualización de datos, la modelización estadística así como en la elaboración de informes técnicos con herramientas de R en combinación con programas como $\LaTeX$ o **Markdown**. Dado el carácter eminentemente práctico del curso, éste debería realizarse en aula de ordenadores o bien que cada participante lleve un ordenador portátil.
+Este curso se ha pensado como un taller de tipo práctico en el que se introducirá a los participantes en la Ciencia de Datos mediante el software estadístico de libre distribución R. Puesto que se trata de un lenguaje de programación y su aprendizaje puede resultar costoso, se utilizarán numerosos ejemplos que faciliten el dominio de la sintaxis básica. A lo largo de las sesiones se capacitará a los participantes a ser autónomos en aquellas técnicas básicas relacionadas con la visualización de datos, la modelización estadística así como en la elaboración de informes técnicos con herramientas de R en combinación con programas como $\LaTeX$ o *Markdown*. Dado el carácter eminentemente práctico del curso, éste debería realizarse en aula de ordenadores o bien que cada participante lleve un ordenador portátil.
 
 ### Programa del curso:
 
