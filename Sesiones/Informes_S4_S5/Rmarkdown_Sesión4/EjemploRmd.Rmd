@@ -24,9 +24,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 _Texto en cursiva_
 
-**Texto en cursiva**
+**Texto en negrita**
 
-**Texto en cursiva**
+__Texto en negrita__
 
 * Item 1
 * Item 2
