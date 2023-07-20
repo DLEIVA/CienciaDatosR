@@ -135,7 +135,7 @@ El siguiente código va a insertar **`r set.seed(123); rn <- sample(1:5,1); rn`*
 
 # Compilación con parámetros
 
-```{r}
+```{r eval=FALSE}
 for(C in unique(datos$COUNTRY_REGION)[1:5]){
   rmarkdown::render(
     'InformeMovilidad.Rmd',output_file = paste0('Informe_Movilidad',C,sep='_'),
