@@ -72,7 +72,7 @@ Nota el uso de `echo = FALSE` para no imprimir el código utilizado para generar
 
 [Cabecera 1er nivel]
 
-![Logo de rmarkdown](images/rmarkdown.png)
+![Logo de rmarkdown](rmarkdown.png)
 ## Chunks de código
 
 ```{r Ejemplo, echo=TRUE, fig.height=12, fig.width=12, message=FALSE, warning=FALSE,results=''}
