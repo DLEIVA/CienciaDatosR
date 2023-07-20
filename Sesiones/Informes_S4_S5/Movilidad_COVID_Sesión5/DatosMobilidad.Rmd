@@ -47,10 +47,10 @@ Podemos añadir listas sencillas como la siguiente:
 # Tablas en R Markdown
 
 ```{r}
-datos %>% group_by(COUNTRY_REGION) %>% summarise(Mean=mean(PARKS_PCT),SD=sd(PARKS_PCT),
+datos |> group_by(COUNTRY_REGION) |> summarise(Mean=mean(PARKS_PCT),SD=sd(PARKS_PCT),
                                                  Min=min(PARKS_PCT),Max=max(PARKS_PCT),
-            .groups = 'drop') %>%
-  as.data.frame() %>% kable() %>% kable_styling("striped")
+            .groups = 'drop') |>
+  as.data.frame() |> kable() |> kable_styling("striped")
 ```
 
 
@@ -65,12 +65,12 @@ También podemos generar figuras desde R y añadirlas al documento:
 ```{r}
 vars <- paste0(c('RETAIL_AND_RECREATION','GROCERY_AND_PHARMACY','PARKS','TRANSIT_STATIONS','WORKPLACES','RESIDENTIAL'),'_PCT')
 
-datos.m <- datos %>% 
-  group_by(DAY_CT) %>% 
+datos.m <- datos |> 
+  group_by(DAY_CT) |> 
   summarise(across(vars, mean))
 
-df <- datos.m %>%
-  select(DAY_CT, RETAIL_AND_RECREATION_PCT:RESIDENTIAL_PCT) %>%
+df <- datos.m |>
+  select(DAY_CT, RETAIL_AND_RECREATION_PCT:RESIDENTIAL_PCT) |>
   gather(key = "variable", value = "Porcentaje", -DAY_CT)
 
 ggplot(df, aes(x = DAY_CT, y = Porcentaje)) + 
@@ -106,24 +106,24 @@ Para más información sobre fórmulas y símbolos en $\LaTeX$ se puede consulta
 ¿Qué implican las siguientes cabeceras?:
 
 ```{r echo=FALSE}
-datos %>% group_by(COUNTRY_REGION) %>% summarise(Mean=mean(PARKS_PCT),SD=sd(PARKS_PCT),
+datos |> group_by(COUNTRY_REGION) |> summarise(Mean=mean(PARKS_PCT),SD=sd(PARKS_PCT),
                                                  Min=min(PARKS_PCT),Max=max(PARKS_PCT),
-            .groups = 'drop') %>%
-  as.data.frame() %>% head() %>%  kable() %>% kable_styling("striped")
+            .groups = 'drop') |>
+  as.data.frame() |> head() |>  kable() |> kable_styling("striped")
 ```
 
 ```{r eval=FALSE}
-datos %>% group_by(COUNTRY_REGION) %>% summarise(Mean=mean(PARKS_PCT),SD=sd(PARKS_PCT),
+datos |> group_by(COUNTRY_REGION) |> summarise(Mean=mean(PARKS_PCT),SD=sd(PARKS_PCT),
                                                  Min=min(PARKS_PCT),Max=max(PARKS_PCT),
-            .groups = 'drop') %>%
-  as.data.frame() %>% head() %>%  kable() %>% kable_styling("striped")
+            .groups = 'drop') |>
+  as.data.frame() |> head() |>  kable() |> kable_styling("striped")
 ```
 
 ```{r results='markup'}
-datos %>% group_by(COUNTRY_REGION) %>% summarise(Mean=mean(PARKS_PCT),SD=sd(PARKS_PCT),
+datos |> group_by(COUNTRY_REGION) |> summarise(Mean=mean(PARKS_PCT),SD=sd(PARKS_PCT),
                                                  Min=min(PARKS_PCT),Max=max(PARKS_PCT),
-            .groups = 'drop') %>%
-  as.data.frame() %>% head() %>%  xtable::xtable() %>% print(,type='html')
+            .groups = 'drop') |>
+  as.data.frame() |> head() |>  xtable::xtable() |> print(,type='html')
 ```
 
 
