@@ -96,6 +96,17 @@ abline(mod1,col='green')
 
 lines(x, preds[,2], col="blue", lty=2)
 lines(x, preds[,3], col="blue", lty=2)
+
+library(ggplot2)
+
+Prestigio |> 
+  ggplot(aes(x=ingresos,y=prestigio)) + 
+  geom_point(pch=16) +
+  geom_smooth(method='lm',formula=y~poly(x,2),color='red')
+  
+
+
+
 ```
 
 
